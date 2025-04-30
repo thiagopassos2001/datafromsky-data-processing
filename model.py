@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Apr 10 21:22:05 2025
-
-@author: thiagop
-"""
-
 import os
 import pandas as pd
 import warnings
