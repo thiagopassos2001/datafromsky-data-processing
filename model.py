@@ -4,8 +4,10 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
-
 def MatchVehicleType(vehicle_type):
+    """
+    Padronizar rótulos
+    """
     valid_types = {
         ' Undefined':"Indefinido",
         ' Car':"Carro",
@@ -31,7 +33,10 @@ def MatchVehicleType(vehicle_type):
     return valid_types[vehicle_type]   
 
 def ConcatSequentialRecords(file_list):
-    
+    """
+    Concatena dataframes e reseta o horário de cada sequencialmente
+    A sequência na ordem da lista
+    """
     df_list = []
     last_instant = 0
     
@@ -48,13 +53,14 @@ def ConcatSequentialRecords(file_list):
     
     return df
 
-def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,):
+def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus"]):
+    """
+    Agrega os dados em uma matrix OD de n_min
+    """
     # Le, contatena e compatibiliza os arquivos
     df = ConcatSequentialRecords(file_list)
     # Compatibilização dos tipos de veículos
     df["Tipo de Veículo"] = df[" Track Type"].apply(MatchVehicleType)
-    # Remover pedestres e ciclistas
-    df = df[-df["Tipo de Veículo"].isin(["Pedestre","Bicicleta"])]
     # Ordenar por instante de entrada
     df = df.sort_values(by=" Entry Time [s]")
     
@@ -98,7 +104,7 @@ def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,):
         # Remover pares sem sentido (origem = destino), fator de correção explícito
         df_agg = df_agg[df_agg["Origem"]!=df_agg["Destino"]]
     
-    print(f"Fator de Correção = {f_corr}")
+    print(f"Fator de Correção = {round(f_corr,2)}")
     
     # Par origem-destino-horario
     df_agg["Par ODH"] = df_agg["Origem"].astype(str) + "-" + df_agg["Destino"].astype(str) + "-" + df_agg["Grupo Horário"].astype(str)
@@ -106,9 +112,6 @@ def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,):
     
     # Salvar
     df_agg.to_excel(os.path.join(os.path.dirname(file_list[0]),f"Dados_Concatenada_{n_min}min.xlsx"))
-    
-    # Classes contabilizadas
-    vehicle_type_list = ["Moto","Carro","Caminhão","Ônibus"]
     
     df_count = pd.DataFrame()
     for i in vehicle_type_list:
@@ -123,18 +126,13 @@ def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,):
     # Salvar
     df_count.to_excel(os.path.join(os.path.dirname(file_list[0]),f"CVC_OD_Concatenada_{n_min}min.xlsx"))
 
-def CountByRegion(file_list,f_corr_perc=1):
+def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus"]):
     # Le, contatena e compatibiliza os arquivos
     df = ConcatSequentialRecords(file_list)
     # Compatibilização dos tipos de veículos
     df["Tipo de Veículo"] = df[" Track Type"].apply(MatchVehicleType)
-    # Remover pedestres e ciclistas
-    df = df[-df["Tipo de Veículo"].isin(["Pedestre","Bicicleta"])]
     # Ordenar por instante de entrada
     df = df.sort_values(by=" Entry Time [s]")
-
-    # Classes contabilizadas
-    vehicle_type_list = ["Moto","Carro","Caminhão","Ônibus"]
     
     df_count = pd.DataFrame()
     for i in vehicle_type_list:
@@ -151,15 +149,16 @@ def CountByRegion(file_list,f_corr_perc=1):
 
 if __name__=="__main__":
     file_list = [
-        r"C:\Users\User\Desktop\Contagem CE-060\Drone Tarde\DJI_0654_comprimido_ffmpeg_mp4.csv",
-        r"C:\Users\User\Desktop\Contagem CE-060\Drone Tarde\DJI_0657_comprimido_ffmpeg_mp4.csv",
-        r"C:\Users\User\Desktop\Contagem CE-060\Drone Tarde\DJI_0658_comprimido_ffmpeg_mp4.csv",
-        r"C:\Users\User\Desktop\Contagem CE-060\Drone Tarde\DJI_0660_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH036717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH046717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH056717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH066717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH076717_aggr_compressed_ffmpeg_mp4.csv",
         ]
     
     print(f"Processando arquivos... {len(file_list)}.")
     
-    CountByRegion(file_list)
-    AggOD(file_list,n_min=60)
+    CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Pedestre","Bicicleta"])
+    AggOD(file_list,n_min=15,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Pedestre","Bicicleta"])
 
     print(f"Arquivos processados {len(file_list)}.")
