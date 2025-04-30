@@ -73,7 +73,7 @@ def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,vehicle_type_list=["Moto"
         "Tipo de Veículo":"first"
         }).reset_index(drop=False)
     
-    # Ajuste da hierarquia de colunas
+    # Ajuste do nome das colunas pela hierarquia de colunas
     df_agg.columns = df_agg.columns.droplevel(1)+" "+df_agg.columns.droplevel(0)
 
     # Renomear colunas
@@ -149,16 +149,13 @@ def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Cam
 
 if __name__=="__main__":
     file_list = [
-        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH036717_aggr_compressed_ffmpeg_mp4.csv",
-        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH046717_aggr_compressed_ffmpeg_mp4.csv",
-        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH056717_aggr_compressed_ffmpeg_mp4.csv",
-        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH066717_aggr_compressed_ffmpeg_mp4.csv",
-        r"C:\Users\thiagop\Desktop\Crateús\P1 (IMP SEM)\GH076717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Crateús\P8 (IMP SEM)\GX028752_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Crateús\P8 (IMP SEM)\GX038752_aggr_compressed_ffmpeg_mp4.csv"
         ]
     
     print(f"Processando arquivos... {len(file_list)}.")
     
-    CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Pedestre","Bicicleta"])
+    # CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Pedestre","Bicicleta"])
     AggOD(file_list,n_min=15,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Pedestre","Bicicleta"])
 
     print(f"Arquivos processados {len(file_list)}.")
