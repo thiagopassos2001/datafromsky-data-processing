@@ -30,7 +30,7 @@ def MatchVehicleType(vehicle_type):
     if not vehicle_type in list(valid_types.keys()):
         return None
     
-    return valid_types[vehicle_type]   
+    return valid_types[vehicle_type]
 
 def ConcatSequentialRecords(file_list):
     """
@@ -52,6 +52,18 @@ def ConcatSequentialRecords(file_list):
     df = pd.concat(df_list,ignore_index=True).sort_values(" Entry Time [s]")
     
     return df
+
+def ValueUCP(vehicle_class):
+    UCP_class = {
+        "Carro":1,
+        "Moto":1/3,
+        "Caminhão":2,
+        "Ônibus":2,
+        }
+
+    if not vehicle_class in UCP_class.keys():
+        return 0
+    return UCP_class[vehicle_class]
 
 def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus"]):
     """
@@ -113,18 +125,29 @@ def AggOD(file_list,n_min=15,f_corr=None,f_corr_perc=1,vehicle_type_list=["Moto"
     # Salvar
     df_agg.to_excel(os.path.join(os.path.dirname(file_list[0]),f"Dados_Concatenada_{n_min}min.xlsx"))
     
-    df_count = pd.DataFrame()
+    df_count = df_agg.groupby("Par ODH").agg({"Instante (s)":"count"}).rename(columns={"Instante (s)":"Total"})
+    df_count["UCP"] = 0
     for i in vehicle_type_list:
         df_count[i] = df_agg.groupby("Par ODH").apply(lambda x: x[x["Tipo de Veículo"]==i]["Tipo de Veículo"].count())
+        df_count["UCP"] = df_count["UCP"] + df_count[i]*ValueUCP(i)
+    
     for i in df_agg["Arquivo"].unique():
         df_count[i] = df_agg.groupby("Par ODH").apply(lambda x: x[x["Arquivo"]==i]["Arquivo"].count())
-    
+
     # Ajuste dos fatores de correção e arredondamento
     df_count = df_count*f_corr*f_corr_perc
     df_count = df_count.round(0).astype(int)
+    df_count = df_count.reset_index(drop=False)
+
+    # Separa ODH
+    df_count.insert(1,"H",df_count["Par ODH"].apply(lambda x:x.split("-")[2]))
+    df_count.insert(1,"D",df_count["Par ODH"].apply(lambda x:x.split("-")[1]))
+    df_count.insert(1,"O",df_count["Par ODH"].apply(lambda x:x.split("-")[0]))
     
     # Salvar
-    df_count.to_excel(os.path.join(os.path.dirname(file_list[0]),f"CVC_OD_Concatenada_{n_min}min.xlsx"))
+    df_count.to_excel(os.path.join(os.path.dirname(file_list[0]),f"CVC_OD_Concatenada_{n_min}min.xlsx"),index=False)
+
+    return df_count
 
 def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus"]):
     # Le, contatena e compatibiliza os arquivos
@@ -149,8 +172,11 @@ def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Cam
 
 if __name__=="__main__":
     file_list = [
-        r"C:\Users\thiagop\Desktop\Crateús\P8 (IMP SEM)\GX028752_aggr_compressed_ffmpeg_mp4.csv",
-        r"C:\Users\thiagop\Desktop\Crateús\P8 (IMP SEM)\GX038752_aggr_compressed_ffmpeg_mp4.csv"
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P1 (IMP SEM)\GH036717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P1 (IMP SEM)\GH046717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P1 (IMP SEM)\GH056717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P1 (IMP SEM)\GH066717_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P1 (IMP SEM)\GH076717_aggr_compressed_ffmpeg_mp4.csv",
         ]
     
     print(f"Processando arquivos... {len(file_list)}.")
