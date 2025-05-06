@@ -172,8 +172,11 @@ def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Cam
 
 if __name__=="__main__":
     file_list = [
-        r"C:\Users\User\Desktop\4. DATAFROMSKY\P8 (IMP SEM)\GX028752_aggr_compressed_ffmpeg_mp4.csv",
-        r"C:\Users\User\Desktop\4. DATAFROMSKY\P8 (IMP SEM)\GX038752_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P12 (IMP BIN)\GH046736_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P12 (IMP BIN)\GH056736_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P12 (IMP BIN)\GH066736_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P12 (IMP BIN)\GH076736_aggr_compressed_ffmpeg_mp4.csv",
+        r"C:\Users\User\Desktop\4. DATAFROMSKY\P12 (IMP BIN)\GH086736_aggr_compressed_ffmpeg_mp4.csv",
         ]
     
     print(f"Processando arquivos... {len(file_list)}.")
