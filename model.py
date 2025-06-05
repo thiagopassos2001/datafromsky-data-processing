@@ -171,10 +171,6 @@ def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Cam
     df_count.to_excel(os.path.join(os.path.dirname(file_list[0]),f"CVC_Agg_por_Regiao_Concatenada.xlsx"))
 
 if __name__=="__main__":
-    file_list = [
-        r"C:\Users\thiagop\Desktop\4. DATAFROMSKY\P2 (ORG PN)\C3\GX023865_comprimido_ffmpeg_mp4.csv",
-        r"C:\Users\thiagop\Desktop\4. DATAFROMSKY\P2 (ORG PN)\C3\GX033865_comprimido_ffmpeg_mp4.csv"
-        ]
     
     print(f"Processando arquivos... {len(file_list)}.")
     
