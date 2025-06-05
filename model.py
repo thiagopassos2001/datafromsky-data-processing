@@ -171,10 +171,13 @@ def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Cam
     df_count.to_excel(os.path.join(os.path.dirname(file_list[0]),f"CVC_Agg_por_Regiao_Concatenada.xlsx"))
 
 if __name__=="__main__":
-    
+    file_list = [
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\C3\GX039723_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\C3\GX049723_comprimido_ffmpeg_mp4.csv"
+    ]
     print(f"Processando arquivos... {len(file_list)}.")
     
-    # CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Pedestre","Bicicleta"])
-    AggOD(file_list,n_min=15,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Pedestre","Bicicleta"])
+    CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus",])
+    AggOD(file_list,n_min=15,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus"])
 
     print(f"Arquivos processados {len(file_list)}.")
