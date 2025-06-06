@@ -12,7 +12,7 @@ def MatchVehicleType(vehicle_type):
         ' Undefined':"Indefinido",
         ' Car':"Carro",
         ' Medium Vehicle':"Carro",
-        ' Heavy Vehicle':"Carro",
+        ' Heavy Vehicle':"Caminhão",
         ' Motorcycle':"Moto",
         ' Light Truck':"Caminhão",
         ' Bus':"Ônibus",
@@ -172,12 +172,17 @@ def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Cam
 
 if __name__=="__main__":
     file_list = [
-        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\C3\GX039723_comprimido_ffmpeg_mp4.csv",
-        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\C3\GX049723_comprimido_ffmpeg_mp4.csv"
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\DRONE\DJI_0853_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\DRONE\DJI_0854_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\DRONE\DJI_0855_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\DRONE\DJI_0856_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\DRONE\DJI_0857_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\DRONE\DJI_0858_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\CE-060 - OD Atualizada\DRONE\DJI_0859_comprimido_ffmpeg_mp4.csv",
     ]
     print(f"Processando arquivos... {len(file_list)}.")
     
-    CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus",])
-    AggOD(file_list,n_min=15,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus"])
+    CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Bicicleta"])
+    AggOD(file_list,n_min=15,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Bicicleta"])
 
     print(f"Arquivos processados {len(file_list)}.")
