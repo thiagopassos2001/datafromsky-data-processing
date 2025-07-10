@@ -186,3 +186,5 @@ if __name__=="__main__":
     AggOD(file_list,n_min=15,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus","Bicicleta"])
 
     print(f"Arquivos processados {len(file_list)}.")
+
+    # Comment test
