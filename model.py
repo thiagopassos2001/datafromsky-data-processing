@@ -172,9 +172,9 @@ def CountByRegion(file_list,f_corr_perc=1,vehicle_type_list=["Moto","Carro","Cam
 
 if __name__=="__main__":
     file_list = [
-        # r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0984_comprimido_ffmpeg_mp4.csv",
-        # r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0982_comprimido_ffmpeg_mp4.csv",
         r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0980_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0982_comprimido_ffmpeg_mp4.csv",
+        r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0984_comprimido_ffmpeg_mp4.csv",
     ]
     print(f"Processando arquivos... {len(file_list)}.")
     
