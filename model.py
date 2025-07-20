@@ -176,8 +176,15 @@ def ValueUCP(vehicle_class):
         return 0
     return UCP_class[vehicle_class]
 
-def AggODByRegion(folder_path,drop_vehicle_types=[],file_extension="csv"):
+def AggODByRegion(folder_path,drop_vehicle_types=[],file_extension="csv",override=False):
     os.chdir(folder_path)
+
+    if os.path.isfile("DFS_processed.xlsx") or override:
+        if not override:
+            if str(input("Já existe um arquivo processado. Prosseguir? (y/n)\t")).lower()!="y":
+                print("Execução cancelada!")
+                return None
+
     file_list = os.listdir(folder_path)
     file_list = [f for f  in file_list if f.endswith(f".{file_extension}")]
 
@@ -221,23 +228,6 @@ def AggODByRegion(folder_path,drop_vehicle_types=[],file_extension="csv"):
     return df
 
 if __name__=="__main__":
-    # folder_path = r"D:\Certare Engenharia (Local)\72 - Plano de Segurança Viária\CE-065-1\Simulação\Retorno FOR_FOR"
+    folder_path = r"D:\Certare Engenharia (Local)\72 - Plano de Segurança Viária\CE-065-1\Simulação\Rua Dr Argeu Braga Herbster (triângulo)"
     result = AggODByRegion(folder_path)
-    
-    
     print(result)
-
-
-    # file_list = [
-    #     r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0980_comprimido_ffmpeg_mp4.csv",
-    #     r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0982_comprimido_ffmpeg_mp4.csv",
-    #     r"C:\Users\thiagop\Desktop\Arquivos Locais\2025\72 - PSV\CE-065-1\DataFromSky\Rotatória\DJI_0984_comprimido_ffmpeg_mp4.csv",
-    # ]
-    # print(f"Processando arquivos... {len(file_list)}.")
-    
-    # CountByRegion(file_list,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus",])
-    # AggOD(file_list,n_min=10,vehicle_type_list=["Moto","Carro","Caminhão","Ônibus"])
-
-    # print(f"Arquivos processados {len(file_list)}.")
-
-    # Comment test
