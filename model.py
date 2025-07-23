@@ -228,6 +228,6 @@ def AggODByRegion(folder_path,drop_vehicle_types=[],file_extension="csv",overrid
     return df
 
 if __name__=="__main__":
-    folder_path = r"D:\Certare Engenharia (Local)\72 - Plano de Segurança Viária\CE-065-1\Simulação\Rua Dr Argeu Braga Herbster (triângulo)"
+    folder_path = r"D:\Certare Engenharia (Local)\72 - Plano de Segurança Viária\CE-065-1\Simulação\Rotatória"
     result = AggODByRegion(folder_path)
     print(result)
